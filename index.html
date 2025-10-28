@@ -3,6 +3,45 @@ html
 <html>
   <head>
     <title>Firebase Service Worker</title>
+    <!-- Firebase SDK -->
+<script src='https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js'/>
+<script src='https://www.gstatic.com/firebasejs/9.23.0/firebase-messaging-compat.js'/>
+
+<script>
+  // Étape 1 : Initialiser Firebase
+  const firebaseConfig = {
+    apiKey: &quot;AIzaSyDsDB8jt6lrrKOA487YDA3ksmGUFd7wExE&quot;,
+    authDomain: &quot;doctinova-97d7d.firebaseapp.com&quot;,
+    projectId: &quot;doctinova-97d7d&quot;,
+    storageBucket: &quot;doctinova-97d7d.firebasestorage.app&quot;,
+    messagingSenderId: &quot;327373809245&quot;,
+    appId: &quot;1:327373809245:web:f0958c1bbd5c5c32d34fb4&quot;
+  };
+  firebase.initializeApp(firebaseConfig);
+
+  // Étape 2 : Initialiser Messaging
+  const messaging = firebase.messaging();
+
+  // Étape 3 : Demander la permission
+  messaging.requestPermission()
+[14:09, 28/10/2025] ChatGPT: .then(() =&gt; messaging.getToken())
+    .then((token) =&gt; {
+      console.log(&quot;Token Firebase reçu :&quot;, token);
+    })
+    .catch((err) =&gt; {
+      console.log(&quot;Erreur permission :&quot;, err);
+    });
+
+  // Étape 4 : Enregistrer le service worker
+  navigator.serviceWorker.register(&quot;https://doctinova.netlify.app/firebase-messaging-sw.js&quot;)
+    .then((registration) =&gt; {
+      console.log(&quot;Service Worker enregistré !&quot;);
+      messaging.useServiceWorker(registration); // Lier Firebase au SW
+    })
+    .catch((err) =&gt; {
+      console.log(&quot;Erreur SW :&quot;, err);
+    });
+</script>
   </head>
   <body>
     <h1>Firebase service worker actif</h1>
